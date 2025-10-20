@@ -8,9 +8,10 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import { Loader2, TrendingUp } from "lucide-react";
+import { Loader2, TrendingUp, Search } from "lucide-react";
 import Link from "next/link";
 import { useDebounce } from "@/hooks/useDebounce";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 type StockItem = {
   symbol: string;
@@ -81,9 +82,22 @@ export default function SearchCommand({
   return (
     <>
       {renderAs === "text" ? (
-        <span onClick={() => setOpen(true)} className="search-text">
-          {label}
-        </span>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="search-text inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-1.5 text-sm text-gray-100 transition-colors"
+          aria-label="Open search (Ctrl + K)"
+        >
+          <Search className="h-4 w-4 opacity-80" />
+          <span className="mr-2">{label}</span>
+          <div className="ml-auto flex items-center gap-2">
+            <KbdGroup className="hidden sm:inline-flex">
+              <Kbd>Ctrl</Kbd>
+              <span>+</span>
+              <Kbd>K</Kbd>
+            </KbdGroup>
+          </div>
+        </button>
       ) : (
         <Button onClick={() => setOpen(true)} className="search-btn">
           {label}
@@ -119,7 +133,7 @@ export default function SearchCommand({
                 {` `}({displayStocks?.length || 0})
               </div>
               {displayStocks?.map((stock, i) => (
-                <li key={stock.symbol} className="search-item">
+                <li key={`${stock.symbol}-${i}`} className="search-item">
                   <Link
                     href={`/stocks/${stock.symbol}`}
                     onClick={handleSelectStock}
