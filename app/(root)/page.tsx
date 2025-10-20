@@ -63,7 +63,6 @@ export default function Home() {
             title="Crypto Heatmap"
             scriptUrl="https://s3.tradingview.com/external-embedding/embed-widget-crypto-coins-heatmap.js"
             config={CRYPTO_HEATMAP_WIDGET_CONFIG}
-            className="custom-chart"
             height={600}
           />
         </div>
